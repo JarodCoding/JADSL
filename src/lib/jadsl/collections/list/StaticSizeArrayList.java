@@ -1,4 +1,4 @@
-package lib.jadsl.list;
+package lib.jadsl.collections.list;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,10 +25,6 @@ public class StaticSizeArrayList<T> extends ArrayList<T> {
     }
     public StaticSizeArrayList(List<T> data){
         super(data);
-    }
-    public StaticSizeArrayList(List<T> data,int maxSize){
-        super(data);
-        this.maxSize = maxSize;
     }
     public int getMaxSize(){
         return  maxSize == -1?this.size():maxSize;
