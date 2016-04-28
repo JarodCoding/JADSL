@@ -80,4 +80,7 @@ public class MultiPropertyArrayList<T> extends ArrayList<T[]> {
         if(ts.length !=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.length);
         return super.set(index, ts);
     }
+    public int getDimension(){
+        return dimension;
+    }
 }
