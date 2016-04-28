@@ -16,7 +16,8 @@ A n dimensional Vector which represents any data (if implemented) as a Vector an
 The runtime type of a vector it is used to detirmen which data can be stored and can maipulate a vector
 ##### lib.jadsl.collections.data.vector.NumberVector
 A numerical Vector. It behaves like a mathmatical n dimensional array
-( lib.jadsl.collections.data.vector.DefaultNumberVectorType ist the defaultType of this vector if none is given in th constructor. It is also automatically asssigned by any new factroy instance)
+###### lib.jadsl.collections.data.vector.DefaultNumberVectorType
+Is the defaultType of the numberVector if none is given in th constructor. It is also automatically asssigned by any new factroy instance
 ##### lib.jadsl.collections.data.vector.DataVectorFactory
 Assosiates implimented DataVector classes with types at runtime (there are the bevore mentioned libary default though. These may be overwritte) and allows the creation of the righy type of data vector for a certian class;
 
