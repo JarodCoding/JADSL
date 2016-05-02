@@ -9,10 +9,10 @@ public abstract class DataVector<T> implements Cloneable {
     private T[] data;
     protected DataVectorType type;
     //Use DataVectorFactory
-    public DataVector(int dimension, T[] data, DataVectorType type) {
+    public DataVector(Integer dimension, DataVectorType type,T[] data) {
         this.data = Arrays.copyOfRange(data, 0, dimension);
         this.type = type;
-        if(!type.isTypeArithmeticallyCompatible(data.getClass()))
+        if(!type.isTypeCompatible(data.getClass().getComponentType()))
             throw new IllegalArgumentException("Data with DataClass "+data.getClass()+" are not compatible with Vectors of the Type"+type.getClass().getName());
     }
 
@@ -63,11 +63,19 @@ public abstract class DataVector<T> implements Cloneable {
     public Object clone() {
         DataVector<T> res = null;
         try {
-            res = this.getClass().getConstructor(Integer.class,data.getClass(),DataVectorType.class).newInstance(data.length,data,type);
+            res = this.getClass().getConstructor(Integer.class,DataVectorType.class,data.getClass()).newInstance(data.length,type,data);
         }catch (Exception e){
             //Error using reflections
         e.printStackTrace();
     }
     return res;
+    }
+
+    @Override
+    public String toString() {
+        String res = getDimension()+" dimensional DataVector of type "+type.toString()+" with Data: ["+(data.length>0?data[0]:"");
+        for(int i = 1;i< data.length;i++)res+=","+data[1].toString();
+        res += "]";
+        return res;
     }
 }

@@ -8,12 +8,18 @@ package lib.jadsl.collections.data.vector;
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 public class NumberVector extends DataVector<Number>{
-    public static final DataVectorType DefaultType = new DefaultNumerVectorType();
-    public NumberVector(int dimension,Number[] data,DataVectorType type){
-        super(dimension,data,type);
+    public static final DataVectorType DefaultType = new DataVectorType.SimpleDataVectorType(Number.class);
+    public NumberVector(Integer dimension,DataVectorType type,Number[] data){
+        super(dimension,type!=null? type:DefaultType,data);
+        for(int i = 0; i < dimension;i++){
+            if(this.get(i) == null )this.set(i,0);
+        }
     }
-    public NumberVector(int dimension,Number[] data){
-        super(dimension,data,DefaultType);
+    public NumberVector(Integer dimension,Number[] data){
+        super(dimension,DefaultType,data);
+        for(int i = 0; i < dimension;i++){
+            if(this.get(i) == null )this.set(i,0);
+        }
     }
 
     public <T> double distance(DataVector<T> x){
@@ -128,17 +134,5 @@ public class NumberVector extends DataVector<Number>{
                 res.set(i,((Double)(res.get(i).doubleValue()*((Number)x[j].get(i)).doubleValue())));
             }        }
         return res;
-    }
-    static class DefaultNumerVectorType implements DataVectorType{
-        public boolean isTypeCompatible(Class<?> c){
-            return c.isAssignableFrom(c);
-        }
-        public boolean isTypeDistanceCompatible(Class<?> c){
-            return c.isAssignableFrom(c);
-
-        }
-        public boolean isTypeArithmeticallyCompatible(Class<?> c){
-            return c.isAssignableFrom(c);
-        }
     }
 }
