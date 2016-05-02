@@ -1,6 +1,8 @@
 package lib.jadsl.collections.list;
 
 import lib.jadsl.collections.data.vector.DataVector;
+import lib.jadsl.collections.data.vector.DataVectorType;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -13,19 +15,19 @@ import java.util.function.UnaryOperator;
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
+public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     private int maxSize;
-    public StaticSizeDataVectorArrayList(int dimension, int size){
-        super(dimension,size);
+    public StaticSizeDataVectorArrayList(int dimension, int size, DataVectorType type){
+        super(dimension,size,type);
     }
-    public StaticSizeDataVectorArrayList(int dimension){
-        super(dimension);
+    public StaticSizeDataVectorArrayList(int dimension, DataVectorType type){
+        super(dimension,type);
     }
-    public StaticSizeDataVectorArrayList(int dimension, List<DataVector<T>> data){
-        super(dimension,data);
+    public StaticSizeDataVectorArrayList(int dimension, List<DataVector<?>> data, DataVectorType type){
+        super(dimension,data,type);
     }
-    public StaticSizeDataVectorArrayList(int dimension, DataVector<T>... data){
-        super(dimension,data);
+    public StaticSizeDataVectorArrayList(int dimension, DataVector<?>[] data, DataVectorType type){
+        super(dimension,data,type);
     }
     public int getMaxSize(){
         return  maxSize == -1?this.size():maxSize;
@@ -58,7 +60,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public boolean removeIf(Predicate<? super DataVector<T>> filter) {
+    public boolean removeIf(Predicate<? super DataVector<?>> filter) {
         if(maxSize==-1)throw new IllegalAccessError("This list is strictly Static!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.removeIf(filter);
@@ -79,7 +81,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public DataVector<T> remove(int index) {
+    public DataVector<?> remove(int index) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.remove(index);
@@ -102,7 +104,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends DataVector<T>> c) {
+    public boolean addAll(Collection<? extends DataVector<?>> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
@@ -110,7 +112,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends DataVector<T>> c) {
+    public boolean addAll(int index, Collection<? extends DataVector<?>> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
@@ -118,7 +120,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public DataVector<T> set(int index, DataVector<T> element) {
+    public DataVector<?> set(int index, DataVector<?> element) {
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.set(index, element);
     }
@@ -131,7 +133,7 @@ public class StaticSizeDataVectorArrayList<T> extends DataVectorArrayList<T> {
     }
 
     @Override
-    public void replaceAll(UnaryOperator<DataVector<T>> operator) {
+    public void replaceAll(UnaryOperator<DataVector<?>> operator) {
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         super.replaceAll(operator);
     }

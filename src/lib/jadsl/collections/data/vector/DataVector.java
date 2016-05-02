@@ -70,6 +70,9 @@ public abstract class DataVector<T> implements Cloneable {
     }
     return res;
     }
+    public DataVectorType getType(){
+        return  type;
+    }
 
     @Override
     public String toString() {

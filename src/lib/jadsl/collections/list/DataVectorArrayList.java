@@ -1,6 +1,8 @@
 package lib.jadsl.collections.list;
 
 import lib.jadsl.collections.data.vector.DataVector;
+import lib.jadsl.collections.data.vector.DataVectorType;
+
 import java.util.*;
 
 /**
@@ -10,56 +12,66 @@ import java.util.*;
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-public class DataVectorArrayList<T> extends ArrayList<DataVector<T>> {
+public class DataVectorArrayList extends ArrayList<DataVector<?>> {
     private final int dimension;
-    public DataVectorArrayList(int dimension){
+    private final DataVectorType type;
+    public DataVectorArrayList(int dimension, DataVectorType type){
         super();
         this.dimension  = dimension ;
+        this.type = type;
     }
-    public DataVectorArrayList(int dimension,int size){
+    public DataVectorArrayList(int dimension,int size, DataVectorType type){
         super(size);
         this.dimension  = dimension ;
+        this.type = type;
     }
-    public DataVectorArrayList(int dimension, List<DataVector<T>> data){
+    public DataVectorArrayList(int dimension, List<DataVector<?>> data, DataVectorType type){
         super(data);
         for(DataVector e:this){
             if(e.getDimension() != dimension)throw new IllegalArgumentException("Dimension needs to be constant! "+e+" has dimension "+e.getDimension()+" dimension of this Array is "+dimension);
+            if(type.getClass().isInstance(e.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+e+" is  not "+type);
         }
         this.dimension  = dimension ;
+        this.type = type;
     }
-    public DataVectorArrayList(int dimension, DataVector<T>[] data){
-        this(dimension,Arrays.asList(data));
+    public DataVectorArrayList(int dimension, DataVector<?>[] data, DataVectorType type){
+        this(dimension,Arrays.asList(data),type);
     }
 
 
     @Override
-    public boolean add(DataVector<T> ts) {
+    public boolean add(DataVector<?> ts) {
         if(ts.getDimension()!=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.getDimension());
+        if(type.getClass().isInstance(ts.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+ts+" is  not "+type);
         return super.add(ts);
     }
     @Override
-    public boolean addAll(Collection<? extends DataVector<T>> c) {
-        for(DataVector<T> ts:c){
+    public boolean addAll(Collection<? extends DataVector<?>> c) {
+        for(DataVector<?> ts:c){
             if(ts.getDimension()!=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.getDimension());
+            if(type.getClass().isInstance(ts.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+ts+" is  not "+type);
         }
         return super.addAll(c);
     }
     @Override
-    public void add(int index, DataVector<T> ts) {
+    public void add(int index, DataVector<?> ts) {
         if(ts.getDimension() !=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.getDimension());
+        if(type.getClass().isInstance(ts.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+ts+" is  not "+type);
         super.add(index, ts);
     }
     @Override
-    public boolean addAll(int index, Collection<? extends DataVector<T>> c) {
-        for(DataVector<T> ts:c){
+    public boolean addAll(int index, Collection<? extends DataVector<?>> c) {
+        for(DataVector<?> ts:c){
             if(ts.getDimension()!=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.getDimension());
+            if(type.getClass().isInstance(ts.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+ts+" is  not "+type);
         }
         return super.addAll(index, c);
     }
 
     @Override
-    public DataVector<T> set(int index, DataVector<T> ts) {
+    public DataVector<?> set(int index, DataVector<?> ts) {
         if(ts.getDimension() !=dimension)throw new IllegalArgumentException("The dimension of this list is "+dimension+" the added element"+ ts.toString() +"has a dimension of "+ ts.getDimension());
+        if(type.getClass().isInstance(ts.getType()))throw new IllegalArgumentException("Type needs to be constant! The type of: "+ts+" is  not "+type);
         return super.set(index, ts);
     }
     public int getDimension(){
