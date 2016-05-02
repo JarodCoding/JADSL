@@ -77,5 +77,9 @@ public class DataVectorArrayList extends ArrayList<DataVector<?>> {
     public int getDimension(){
         return dimension;
     }
+
+    public DataVectorType getType(){
+        return type;
+    }
 }
 
