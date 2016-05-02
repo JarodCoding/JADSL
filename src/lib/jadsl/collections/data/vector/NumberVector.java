@@ -26,8 +26,15 @@ public class NumberVector extends DataVector<Number>{
         checkDistanceCompatible(x.get(0).getClass());
         if(x.getDimension()!=getDimension())throw new IllegalArgumentException("Euclidean distance can only be calculated for vectors with equal dimensions!\n Dimension of "+ this+" is "+getDimension()+"\n Dimension of "+ x+" is "+x.getDimension());
         double l = 0;
-        for(int i = 0;i < x.getDimension();i++){
+        for(int i = 0;i < getDimension();i++){
             l += Math.pow(((Number)x.get(i)).doubleValue()-get(i).doubleValue(),2);
+        }
+        return Math.sqrt(l);
+    }
+    public double length(){
+        double l = 0;
+        for(int i = 0;i < getDimension();i++){
+            l += Math.pow(get(i).doubleValue(),2);
         }
         return Math.sqrt(l);
     }

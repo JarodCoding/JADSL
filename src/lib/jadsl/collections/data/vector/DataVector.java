@@ -17,6 +17,8 @@ public abstract class DataVector<T> implements Cloneable {
     }
 
     public abstract <X> double distance(DataVector<X> x);
+    public abstract double length();
+
     public abstract <X> DataVector<T> add(X x);
     public abstract <X> DataVector<T> add(DataVector<X> x);
     public abstract <X> DataVector<T> add(DataVector<X>... x);
