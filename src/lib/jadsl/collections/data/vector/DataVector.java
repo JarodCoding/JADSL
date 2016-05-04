@@ -1,60 +1,69 @@
 package lib.jadsl.collections.data.vector;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 /**
  * Created by Pascal Jarod Kuthe on 28.04.2016.
  */
-public abstract class DataVector<T> implements Cloneable {
-    private T[] data;
+public abstract class DataVector implements Cloneable {
+    private Object[] data;
     protected DataVectorType type;
     //Use DataVectorFactory
-    public DataVector(Integer dimension, DataVectorType type,T[] data) {
-        this.data = Arrays.copyOfRange(data, 0, dimension);
+    public DataVector(Integer dimension, DataVectorType type,Object... data) {
+        this.data = new Object[dimension];
+        for(int i = 0;i < data.length;i++){
+            this.data[i] = data[i];
+        }
         this.type = type;
-        if(!type.isTypeCompatible(data.getClass().getComponentType()))
+        if(!type.isAssignableFrom(data.getClass().getComponentType()))
             throw new IllegalArgumentException("Data with DataClass "+data.getClass()+" are not compatible with Vectors of the Type"+type.getClass().getName());
     }
 
-    public abstract <X> double distance(DataVector<X> x);
+    public double distance(DataVector x){
+        DataVector res = subtract(x);
+        return res.length();
+    }
     public abstract double length();
 
-    public abstract <X> DataVector<T> add(X x);
-    public abstract <X> DataVector<T> add(DataVector<X> x);
-    public abstract <X> DataVector<T> add(DataVector<X>... x);
-    public <X> DataVector<T> add(Collection<DataVector<X>> x){
-        return subtract((DataVector<X>[])x.toArray());
+    public abstract <X> DataVector add(X x);
+    public abstract DataVector add(DataVector x);
+    public abstract DataVector add(DataVector... x);
+    public DataVector add(Collection<DataVector> x){
+        return subtract((DataVector[])x.toArray());
     }
-    public abstract <X> DataVector<T> subtract(X x);
-    public abstract <X> DataVector<T> subtract(DataVector<X> x);
-    public abstract <X> DataVector<T> subtract(DataVector<X>... x);
-    public <X> DataVector<T> subtract(Collection<DataVector<X>> x){
-        return subtract((DataVector<X>[])x.toArray());
+    public abstract <X> DataVector subtract(X x);
+    public abstract  DataVector subtract(DataVector x);
+    public abstract DataVector subtract(DataVector... x);
+    public DataVector subtract(Collection<DataVector> x){
+        return subtract((DataVector[])x.toArray());
     }
-    public abstract <X> DataVector<T> divideElements(X x);
-    public abstract <X> DataVector<T> divideElements(DataVector<X> x);
-    public abstract <X> DataVector<T> divideElements(DataVector<X>... x);
-    public <X> DataVector<T> divideElements(Collection<DataVector<X>> x){
-        return divideElements((DataVector<X>[])x.toArray());
+    public abstract <X> DataVector divideElements(X x);
+    public abstract DataVector divideElements(DataVector x);
+    public abstract DataVector divideElements(DataVector... x);
+    public <X> DataVector divideElements(Collection<DataVector> x){
+        return divideElements((DataVector[])x.toArray());
     }
-    public abstract <X> DataVector<T> multiplyElements(X x);
-    public abstract <X> DataVector<T> multiplyElements(DataVector<X> x);
-    public abstract <X> DataVector<T> multiplyElements(DataVector<X>... x);
-    public <X> DataVector<T> multiplyElements(Collection<DataVector<X>> x){
-        return multiplyElements((DataVector<X>[])x.toArray());
+    public abstract <X> DataVector multiplyElements(X x);
+    public abstract DataVector multiplyElements(DataVector x);
+    public abstract DataVector multiplyElements(DataVector... x);
+    public DataVector multiplyElements(Collection<DataVector> x){
+        return multiplyElements((DataVector[])x.toArray());
     }
     public void checkArithmeticCompatible(Class<?> c){
-        if(!type.isTypeArithmeticallyCompatible(c))
-            throw new IllegalArgumentException("Data of the Class "+c.getName()+" are not compatible with arethmetic operations with Vectors of the Type"+type.getClass().getName());    }
-    public void checkDistanceCompatible(Class<?> c){
-        if(!type.isTypeDistanceCompatible(c))
-        throw new IllegalArgumentException("DataVectors with DataClass "+c.getName()+" are not compatible with distance operations with Vectors of the Type"+type.getClass().getName());
+        if(!type.isArithmeticallyCompatible(c))
+            throw new IllegalArgumentException("Data of the Class "+c.getName()+" are not compatible with arethmetic operations with Vectors of the Type"+type);    }
+    public void checkArithmeticCompatible(Class<?>... c){
+        if(!type.isArithmeticallyCompatible(c))
+            throw new IllegalArgumentException("Data of the Classes "+c.toString()+" are not compatible with arethmetic operations with Vectors of the Type"+type);    }
+    public void checkArithmeticCompatible(DataVectorType type){
+        if(!this.type.isArithmeticallyCompatible(type))
+            throw new IllegalArgumentException("Data of the Classes "+type+" are not compatible with arethmetic operations with Vectors of the Type"+this.type);    }
 
-    }
-    public T get(int dimension){
+    public Object get(int dimension){
         return data[dimension];
     }
-    public void set(int dimension,T data){
+    public void set(int dimension,Object data){
         this.data[dimension] = data;
     }
     public int getDimension(){
@@ -63,9 +72,9 @@ public abstract class DataVector<T> implements Cloneable {
 
     @Override
     public Object clone() {
-        DataVector<T> res = null;
+        DataVector res = null;
         try {
-            res = this.getClass().getConstructor(Integer.class,DataVectorType.class,data.getClass()).newInstance(data.length,type,data);
+            res = this.getClass().getConstructor(Integer.class,DataVectorType.class,Object.class).newInstance(data.length,type,data);
         }catch (Exception e){
             //Error using reflections
         e.printStackTrace();

@@ -23,11 +23,23 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     public StaticSizeDataVectorArrayList(int dimension, DataVectorType type){
         super(dimension,type);
     }
-    public StaticSizeDataVectorArrayList(int dimension, List<DataVector<?>> data, DataVectorType type){
+    public StaticSizeDataVectorArrayList(int dimension, List<DataVector> data, DataVectorType type){
         super(dimension,data,type);
     }
-    public StaticSizeDataVectorArrayList(int dimension, DataVector<?>[] data, DataVectorType type){
+    public StaticSizeDataVectorArrayList(int dimension, DataVector[] data, DataVectorType type){
         super(dimension,data,type);
+    }
+    public StaticSizeDataVectorArrayList( DataVectorType type,int size){
+        super(type,size);
+    }
+    public StaticSizeDataVectorArrayList( DataVectorType type){
+        super(type);
+    }
+    public StaticSizeDataVectorArrayList(List<DataVector> data, DataVectorType type){
+        super(data,type);
+    }
+    public StaticSizeDataVectorArrayList(DataVector[] data, DataVectorType type){
+        super(data,type);
     }
     public int getMaxSize(){
         return  maxSize == -1?this.size():maxSize;
@@ -60,7 +72,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public boolean removeIf(Predicate<? super DataVector<?>> filter) {
+    public boolean removeIf(Predicate<? super DataVector> filter) {
         if(maxSize==-1)throw new IllegalAccessError("This list is strictly Static!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.removeIf(filter);
@@ -81,7 +93,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public DataVector<?> remove(int index) {
+    public DataVector remove(int index) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.remove(index);
@@ -104,7 +116,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public boolean addAll(Collection<? extends DataVector<?>> c) {
+    public boolean addAll(Collection<? extends DataVector> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
@@ -112,7 +124,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends DataVector<?>> c) {
+    public boolean addAll(int index, Collection<? extends DataVector> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
@@ -120,7 +132,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public DataVector<?> set(int index, DataVector<?> element) {
+    public DataVector set(int index, DataVector element) {
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         return super.set(index, element);
     }
@@ -133,7 +145,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     }
 
     @Override
-    public void replaceAll(UnaryOperator<DataVector<?>> operator) {
+    public void replaceAll(UnaryOperator<DataVector> operator) {
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
         super.replaceAll(operator);
     }
