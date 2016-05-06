@@ -40,7 +40,7 @@ public class NumberVector extends DataVector{
     }
 
         public DataVector add(DataVector x){
-            checkArithmeticCompatible(x.get(0).getClass());
+            checkArithmeticCompatible(x.getType());
             DataVector res = (DataVector) this.clone();
         for(int i = 0;i < getDimension();i++){
             res.set(i,((get(i).doubleValue()+((Number)x.get(i)).doubleValue())));
@@ -48,7 +48,9 @@ public class NumberVector extends DataVector{
         return res;
     }
     public DataVector add(DataVector... x) {
-        checkArithmeticCompatible(x[0].getClass());
+        for(DataVector vec:x){
+            checkArithmeticCompatible(vec.getType());
+        }
         DataVector res = (DataVector) this.clone();
         for (int i = 0; i < getDimension(); i++) {
             for (int j = 0; j < x.length; j++) {
