@@ -9,13 +9,13 @@ package lib.jadsl.collections.data.vector;
  */
 public class NumberVector extends DataVector{
     public static final DataVectorType DefaultType = new DataVectorType.SimpleDataVectorType(Number.class);
-    public NumberVector(Integer dimension,DataVectorType type,Number[] data){
+    public NumberVector(Integer dimension,DataVectorType type,Object... data){
         super(dimension,type!=null? type:DefaultType,data);
         for(int i = 0; i < dimension;i++){
             if(this.get(i) == null )this.set(i,0);
         }
     }
-    public NumberVector(Integer dimension,Number[] data){
+    public NumberVector(Integer dimension,Object... data){
         super(dimension,DefaultType,data);
         for(int i = 0; i < dimension;i++){
             if(this.get(i) == null )this.set(i,0);

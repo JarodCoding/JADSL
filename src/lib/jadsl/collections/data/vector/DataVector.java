@@ -1,10 +1,14 @@
 package lib.jadsl.collections.data.vector;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Iterator;
 /**
- * Created by Pascal Jarod Kuthe on 28.04.2016.
+ * Created by Pascal Jarod Kuthe on 28/04/2016.
+ * Copyright (c) <2016> <Pascal Jarod Kuthe>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 public abstract class DataVector implements Cloneable {
     private Object[] data;
@@ -91,5 +95,135 @@ public abstract class DataVector implements Cloneable {
         for(int i = 1;i< data.length;i++)res+=","+data[1].toString();
         res += "]";
         return res;
+    }
+
+
+
+
+    //Utility Methods
+
+    // Mean/Middle DataVector of a Collection of DataVectors
+
+        public static DataVector calculateMeanDataVector(DataVector... xn){
+            DataVector res = xn[0];
+            for(int i = 1;i < xn.length;i++){
+                res.add(xn[i]);
+            }
+
+            return res.divideElements(xn.length);
+        }
+
+        public static DataVector calculateMeanDataVector(Collection<DataVector> xn){
+            Iterator<DataVector> i = xn.iterator();
+            DataVector res = i.next();
+            while(i.hasNext()){
+                res.add(i.next());
+            }
+            return res.divideElements(xn.size());
+        }
+
+    // Determines the DataVector out of a collection which is closest to the given DataVector
+
+    public static DataVector determineClosestDataVector(DataVector x,Collection<DataVector> xn){
+        Iterator<DataVector> i = xn.iterator();
+        DataVector res = i.next();
+        double smallestDistance = x.distance(res);
+        DataVector tmp;
+        double distance;
+        while(i.hasNext()){
+            if((distance = x.distance(tmp = i.next()))>smallestDistance){
+                res = tmp;
+                smallestDistance = distance;
+            }
+        }
+        return res;
+    }
+    public static DataVector determineClosestDataVector(DataVector x,DataVector... xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = x.distance(xn[0]);
+        double distance;
+        for(int i = 1;i < xn.length;i++){
+            if((distance = x.distance(xn[i]))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return xn[closestDataVectorIndex];
+    }
+    public DataVector determineClosestDataVector(Collection<DataVector> xn){
+        Iterator<DataVector> i = xn.iterator();
+        DataVector res = i.next();
+        double smallestDistance = distance(res);
+        DataVector tmp;
+        double distance;
+        while(i.hasNext()){
+            if((distance = distance(tmp = i.next()))>smallestDistance){
+                res = tmp;
+                smallestDistance = distance;
+            }
+        }
+        return res;
+    }
+    public DataVector determineClosestDataVector(DataVector... xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = distance(xn[0]);
+        double distance;
+        for(int i = 1;i < xn.length;i++){
+            if((distance = distance(xn[i]))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return xn[closestDataVectorIndex];
+    }
+    // Determines the Index of the DataVector in a List which is closest to the given DataVector
+
+    public static int determineClosestDataVectorIndex(DataVector x,DataVector... xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = x.distance(xn[0]);
+        double distance;
+        for(int i = 1;i < xn.length;i++){
+            if((distance = x.distance(xn[i]))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return closestDataVectorIndex;
+    }
+    public static int determineClosestDataVectorIndex(DataVector x,List<DataVector> xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = x.distance(xn.get(0));
+        double distance;
+        for(int i = 1;i < xn.size();i++){
+            if((distance = x.distance(xn.get(i)))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return closestDataVectorIndex;
+    }
+    public int determineClosestDataVectorIndex(DataVector... xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = distance(xn[0]);
+        double distance;
+        for(int i = 1;i < xn.length;i++){
+            if((distance = distance(xn[i]))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return closestDataVectorIndex;
+    }
+    public int determineClosestDataVectorIndex(List<DataVector> xn){
+        int closestDataVectorIndex = 0;
+        double smallestDistance = distance(xn.get(0));
+        double distance;
+        for(int i = 1;i < xn.size();i++){
+            if((distance = distance(xn.get(i)))>smallestDistance){
+                closestDataVectorIndex = i;
+                smallestDistance = distance;
+            }
+        }
+        return closestDataVectorIndex;
     }
 }
