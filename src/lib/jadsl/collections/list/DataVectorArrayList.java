@@ -103,5 +103,15 @@ public class DataVectorArrayList extends ArrayList<DataVector> {
     public DataVectorType getType(){
         return type;
     }
+
+    public DataVector calculateMeanDataVector(){
+        return DataVector.calculateMeanDataVector(this);
+    }
+    public DataVector determineClosestDataVector(DataVector x){
+        return DataVector.determineClosestDataVector(x,this);
+    }
+    public int determineClosestDataVectorIndex(DataVector x){
+        return DataVector.determineClosestDataVectorIndex(x,this);
+    }
 }
 
