@@ -88,7 +88,7 @@ public class StaticSizeArrayList<T> extends ArrayList<T> {
     public boolean add(T t) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+t+" would exceed this lists maximum size of "+getMaxSize());
+        if(maxSize > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+t+" would exceed this lists maximum size of "+getMaxSize());
         return super.add(t);
     }
 
@@ -96,7 +96,7 @@ public class StaticSizeArrayList<T> extends ArrayList<T> {
     public void add(int index, T element) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+element+" would exceed this lists maximum size of "+getMaxSize());
+        if(maxSize > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+element+" would exceed this lists maximum size of "+getMaxSize());
         super.add(index, element);
     }
 
@@ -112,7 +112,7 @@ public class StaticSizeArrayList<T> extends ArrayList<T> {
     public boolean addAll(int index, Collection<? extends T> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
+        if(maxSize > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
         return super.addAll(index, c);
     }
 

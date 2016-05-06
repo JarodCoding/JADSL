@@ -103,7 +103,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     public boolean add(DataVector t) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+t+" would exceed this lists maximum size of "+getMaxSize());
+        if(maxSize > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+t+" would exceed this lists maximum size of "+getMaxSize());
         return super.add(t);
     }
 
@@ -111,7 +111,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     public void add(int index, DataVector element) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+element+" would exceed this lists maximum size of "+getMaxSize());
+        if(maxSize > 0 && maxSize < this.size()+1)throw new IllegalAccessError("Adding "+element+" would exceed this lists maximum size of "+getMaxSize());
         super.add(index, element);
     }
 
@@ -119,7 +119,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     public boolean addAll(Collection<? extends DataVector> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
+        if(maxSize > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
         return super.addAll(c);
     }
 
@@ -127,7 +127,7 @@ public class StaticSizeDataVectorArrayList extends DataVectorArrayList {
     public boolean addAll(int index, Collection<? extends DataVector> c) {
         if(maxSize==-1)throw new IllegalAccessError("This list has a static size!");
         if(maxSize==-2)throw new IllegalAccessError("This list has a static content and shall not be changed!");
-        if(this.size() > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
+        if(maxSize > 0 && maxSize < this.size()+c.size())throw new IllegalAccessError("Adding "+c+" would exceed this lists maximum size of "+getMaxSize()+" by"+(this.size()+c.size()-maxSize));
         return super.addAll(index, c);
     }
 
